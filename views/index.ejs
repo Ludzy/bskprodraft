@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Draft - Basilisk e-Sports</title>
+    <meta name="description" content="Simulate League of Legends pick and ban with Fearless Draft. Create custom drafts and explore various strategies to improve your drafting skills.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9QVY05JLL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-Z9QVY05JLL');
+    </script>
+    <script>
+        // Function to create a new draft
+        function createDraft() {
+            const blueTeamName = document.getElementById('blue-team-name').value;
+            const redTeamName = document.getElementById('red-team-name').value;
+
+            fetch('/create-draft', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ blueTeamName, redTeamName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('create-draft').style.display = 'none';
+                document.getElementById('draft-links').innerHTML = `
+                    <div class="link-container blue-link">
+                        <p>Blue Side Link: <a href="${data.blueLink}" target="_blank">${data.blueLink}</a>
+                            <button class="copy-button" onclick="copyLink('${data.blueLink}')">Copy</button>
+                        </p>
+                    </div>
+                    <div class="link-container red-link">
+                        <p>Red Side Link: <a href="${data.redLink}" target="_blank">${data.redLink}</a>
+                            <button class="copy-button" onclick="copyLink('${data.redLink}')">Copy</button>
+                        </p>
+                    </div>
+                    <div class="link-container spectator-link">
+                        <p>Spectator Link: <a href="${data.spectatorLink}" target="_blank">${data.spectatorLink}</a>
+                            <button class="copy-button" onclick="copyLink('${data.spectatorLink}')">Copy</button>
+                        </p>
+                    </div>
+                    <button class="copy-all-button" onclick="copyAllLinks('${data.blueLink}', '${data.redLink}', '${data.spectatorLink}')">Copy All Links</button>
+                `;
+            });
+        }
+
+        // Function to copy a link to the clipboard
+        function copyLink(link) {
+            const tempInput = document.createElement('input');
+            tempInput.value = link;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Link copied to clipboard!');
+        }
+
+        // Function to copy all links to the clipboard
+        function copyAllLinks(blueLink, redLink, spectatorLink) {
+            const links = `Blue Link: ${blueLink}\nRed Link: ${redLink}\nSpec Link: ${spectatorLink}`;
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = links;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            alert('All links copied to clipboard!');
+        }
+    </script>
+</head>
+<body>
+    <h1 onclick="location.reload()" style="cursor: pointer;">Pro Draft</h1>
+
+    <div id="create-draft">
+        <label for="blue-team-name">Nome do Time BLUE:</label>
+        <input type="text" id="blue-team-name" value="Time 1" required>
+        <br>
+        <label for="red-team-name">Nome do Time RED:</label>
+        <input type="text" id="red-team-name" value="Time 2" required>
+        <br>
+        <button onclick="createDraft()">Create Draft</button>
+    </div>
+
+    <div id="draft-links"></div>
+
+</body>
+</html>
