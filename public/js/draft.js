@@ -272,20 +272,20 @@ function colorBorder() { //shows who is picking currently
 
     if(currPick == 0){ // color border based on side
         if (side === 'B') {
-            document.querySelector('#blue-side-header').style.border = '2px solid rgb(236, 209, 59)';
+            document.querySelector('#blue-side-header').style.border = '2px solid rgb(0, 191, 255)';
             document.querySelector('#red-side-header').style.border = '2px solid black';
         } else if (side === 'R') {
-            document.querySelector('#red-side-header').style.border = '2px solid rgb(236, 209, 59)';
+            document.querySelector('#red-side-header').style.border = '2px solid rgb(0, 191, 255)';
             document.querySelector('#blue-side-header').style.border = '2px solid black';
         }
         return;
     }
     // Apply a golden border to the current side's header
     if (currSlot[0] === 'B') {
-        document.querySelector('#blue-side-header').style.border = '2px solid rgb(236, 209, 59)';
+        document.querySelector('#blue-side-header').style.border = '2px solid rgb(0, 191, 255)';
         document.querySelector('#red-side-header').style.border = '2px solid black';
     } else {
-        document.querySelector('#red-side-header').style.border = '2px solid rgb(236, 209, 59)';
+        document.querySelector('#red-side-header').style.border = '2px solid rgb(0, 191, 255)';
         document.querySelector('#blue-side-header').style.border = '2px solid black';
     }
 
