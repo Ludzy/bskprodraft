@@ -303,7 +303,7 @@ function colorBorder() { //shows who is picking currently
         }
     }
     if (pickOrBanSlot) {
-        pickOrBanSlot.style.outline = '2px solid rgb(236, 209, 59)'; // Golden outline for the current pick or ban slot
+        pickOrBanSlot.style.outline = '2px solid rgb(0, 191, 255)'; // Golden outline for the current pick or ban slot
     }
 }
 
