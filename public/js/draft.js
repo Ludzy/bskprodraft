@@ -517,21 +517,21 @@ function updateSide(sideSwapped, blueName, redName, initialLoad = false) {
 		if (!initialLoad)
             if(side !== 'S'){
                 if(side === 'B')
-                    alert('You are now on Blue Side');
+                    alert('Voce esta na Blue Side');
                 else if(side === 'R')
-                    alert('You are now on Red Side');
+                    alert('Voce esta na Red Side');
             } else
-                alert(`Sides Swapped`);
+                alert(`Sides Inveteram`);
 		return
 	}
 	if (side === 'B') {
 		side = 'R';
 		if (!initialLoad)
-			alert('You are now on Red Side');
+			alert('Voce esta na Red Side');
 	} else if (side === 'R') {
 		side = 'B';
 		if (!initialLoad)
-			alert('You are now on Blue Side');
+			alert('Voce esta na Blue Side');
 	}
 	document.getElementById('blue-team-name').textContent = blueName;
 	document.getElementById('red-team-name').textContent = redName;
@@ -628,18 +628,6 @@ socket.on('pickUpdate', (picks) => { //new pick was locked
 });
 
 socket.on('showNextGameButton', (data) => { //draft ended
-	if (data.finished) {
-        viewingPreviousDraft = true;
-		confirmButton.textContent = 'View Previous Games';
-		confirmButton.style.display = 'block';
-		confirmButton.disabled = false;
-		confirmButton.onclick = function() {
-			location.reload();
-		};
-        switchSidesButton.style.display = 'none';
-        finishSeriesButton.style.display = 'none';
-		return;
-	}
 	currPick = 0;
 	confirmButton.textContent = 'Ready Next Game';
 	confirmButton.disabled = false;
