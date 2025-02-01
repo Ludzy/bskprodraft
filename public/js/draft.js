@@ -628,6 +628,18 @@ socket.on('pickUpdate', (picks) => { //new pick was locked
 });
 
 socket.on('showNextGameButton', (data) => { //draft ended
+	if (data.finished) {
+	        viewingPreviousDraft = true;
+		confirmButton.textContent = 'View Previous Games';
+		confirmButton.style.display = 'block';
+		confirmButton.disabled = false;
+		confirmButton.onclick = function() {
+			location.reload();
+		};
+        switchSidesButton.style.display = 'none';
+        finishSeriesButton.style.display = 'none';
+		return;
+	}
 	currPick = 0;
 	confirmButton.textContent = 'Ready Next Game';
 	confirmButton.disabled = false;
