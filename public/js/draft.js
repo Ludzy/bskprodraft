@@ -1,5 +1,5 @@
 const socket = io();
-const patch = '15.2.1'
+const patch = '15.4.1'
 const baseUrl = `https://ddragon.leagueoflegends.com/cdn/${patch}`
 let champions = null;
 let currPick = 0;
@@ -234,7 +234,7 @@ confirmButton.addEventListener('click', () => { //lock in/ready button
 		}
 		if (side === 'B') {
 			blueReady = true;
-			confirmButton.textContent = 'Waiting for Red...';
+			confirmButton.textContent = 'Esperando o Lado Vermelho...';
 			confirmButton.disabled = true;
 			socket.emit('playerReady', {
 				draftId,
@@ -242,7 +242,7 @@ confirmButton.addEventListener('click', () => { //lock in/ready button
 			});
 		} else if (side === 'R') {
 			redReady = true;
-			confirmButton.textContent = 'Waiting for Blue...';
+			confirmButton.textContent = 'Esperando o Lado Azul...';
 			confirmButton.disabled = true;
 			socket.emit('playerReady', {
 				draftId,
@@ -272,20 +272,20 @@ function colorBorder() { //shows who is picking currently
 
     if(currPick == 0){ // color border based on side
         if (side === 'B') {
-            document.querySelector('#blue-side-header').style.border = '2px solid rgb(0, 191, 255)';
+            document.querySelector('#blue-side-header').style.border = '2px solid rgb(236, 209, 59)';
             document.querySelector('#red-side-header').style.border = '2px solid black';
         } else if (side === 'R') {
-            document.querySelector('#red-side-header').style.border = '2px solid rgb(0, 191, 255)';
+            document.querySelector('#red-side-header').style.border = '2px solid rgb(236, 209, 59)';
             document.querySelector('#blue-side-header').style.border = '2px solid black';
         }
         return;
     }
     // Apply a golden border to the current side's header
     if (currSlot[0] === 'B') {
-        document.querySelector('#blue-side-header').style.border = '2px solid rgb(0, 191, 255)';
+        document.querySelector('#blue-side-header').style.border = '2px solid rgb(236, 209, 59)';
         document.querySelector('#red-side-header').style.border = '2px solid black';
     } else {
-        document.querySelector('#red-side-header').style.border = '2px solid rgb(0, 191, 255)';
+        document.querySelector('#red-side-header').style.border = '2px solid rgb(236, 209, 59)';
         document.querySelector('#blue-side-header').style.border = '2px solid black';
     }
 
@@ -303,7 +303,7 @@ function colorBorder() { //shows who is picking currently
         }
     }
     if (pickOrBanSlot) {
-        pickOrBanSlot.style.outline = '2px solid rgb(0, 191, 255)'; // Golden outline for the current pick or ban slot
+        pickOrBanSlot.style.outline = '2px solid rgb(236, 209, 59)'; // Golden outline for the current pick or ban slot
     }
 }
 
@@ -392,7 +392,7 @@ function lockChamp() { //lock in champ
 		colorBorder();
 		startTimer();
 	} else {
-		confirmButton.textContent = 'Ready Next Game';
+		confirmButton.textContent = 'Pronto para o proximo jogo';
 		confirmButton.disabled = false
 		currPick = 0
 		endDraft();
@@ -517,21 +517,21 @@ function updateSide(sideSwapped, blueName, redName, initialLoad = false) {
 		if (!initialLoad)
             if(side !== 'S'){
                 if(side === 'B')
-                    alert('Voce esta na Blue Side');
+                    alert('Você esta no lado Azul agora!');
                 else if(side === 'R')
-                    alert('Voce esta na Red Side');
+                    alert('Você esta no lado Vermelho agora!');
             } else
-                alert(`Sides Inveteram`);
+                alert(`Sides Swapped`);
 		return
 	}
 	if (side === 'B') {
 		side = 'R';
 		if (!initialLoad)
-			alert('Voce esta na Red Side');
+			alert('Você esta no lado Vermelho agora!');
 	} else if (side === 'R') {
 		side = 'B';
 		if (!initialLoad)
-			alert('Voce esta na Blue Side');
+			alert('Você esta no lado Azul agora!');
 	}
 	document.getElementById('blue-team-name').textContent = blueName;
 	document.getElementById('red-team-name').textContent = redName;
@@ -597,14 +597,14 @@ socket.on('draftState', (data) => { //updates screen when page loaded with draft
 		}
 	}
 	if (blueReady && redReady) {
-		confirmButton.textContent = 'Lock In';
+		confirmButton.textContent = 'Selecionar';
 		confirmButton.disabled = true;
 	} else {
 		if (blueReady && side === 'B') {
-			confirmButton.textContent = 'Waiting for Red...';
+			confirmButton.textContent = 'Esperando o Lado Vermelho...';
 			confirmButton.disabled = true;
 		} else if (redReady && side === 'R') {
-			confirmButton.textContent = 'Waiting for Blue...';
+			confirmButton.textContent = 'Esperando o Lado Azul...';
 			confirmButton.disabled = true;
 		}
 	}
@@ -629,8 +629,8 @@ socket.on('pickUpdate', (picks) => { //new pick was locked
 
 socket.on('showNextGameButton', (data) => { //draft ended
 	if (data.finished) {
-	        viewingPreviousDraft = true;
-		confirmButton.textContent = 'View Previous Games';
+        viewingPreviousDraft = true;
+		confirmButton.textContent = 'Ver jogos passados';
 		confirmButton.style.display = 'block';
 		confirmButton.disabled = false;
 		confirmButton.onclick = function() {
@@ -641,7 +641,7 @@ socket.on('showNextGameButton', (data) => { //draft ended
 		return;
 	}
 	currPick = 0;
-	confirmButton.textContent = 'Ready Next Game';
+	confirmButton.textContent = 'Pronto para o proximo jogo';
 	confirmButton.disabled = false;
 	if (side !== 'S') {
 		switchSidesButton.style.display = 'block';
@@ -664,14 +664,14 @@ socket.on('showNextGameButton', (data) => { //draft ended
 socket.on('switchSidesResponse', (data) => { //sides swapped
 	blueReady = data.blueReady;
 	redReady = data.redReady;
-	confirmButton.textContent = 'Ready Next Game';
+	confirmButton.textContent = 'Pronto para o proximo jogo';
 	confirmButton.disabled = false;
 	updateSide(data.sideSwapped, data.blueTeamName, data.redTeamName);
 });
 
 socket.on('showDraftResponse', (data) => {
 	if (!data) {
-		alert("No more games to show!")
+		alert("Mais nenhum jogo para mostrar!")
 		matchNumber--;
 		return;
 	}
@@ -687,7 +687,7 @@ socket.on('showDraftResponse', (data) => {
 	fearlessBan(data.fearlessBans);
 	newPick(picks);
 	confirmButton.style.display = 'block';
-	confirmButton.textContent = 'Show Next Game';
+	confirmButton.textContent = 'Mostrar proximo jogo';
 	confirmButton.disabled = false;
 	confirmButton.onclick = function() {
 		matchNumber++;
