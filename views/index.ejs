@@ -42,12 +42,7 @@
                             <button class="copy-button" onclick="copyLink('${data.redLink}')">Copy</button>
                         </p>
                     </div>
-                    <div class="link-container spectator-link">
-                        <p>Spectator Link: <a href="${data.spectatorLink}" target="_blank">${data.spectatorLink}</a>
-                            <button class="copy-button" onclick="copyLink('${data.spectatorLink}')">Copy</button>
-                        </p>
-                    </div>
-                    <button class="copy-all-button" onclick="copyAllLinks('${data.blueLink}', '${data.redLink}', '${data.spectatorLink}')">Copy All Links</button>
+                    <button class="copy-all-button" onclick="copyAllLinks('${data.blueLink}', '${data.redLink}')">Copy All Links</button>
                 `;
             });
         }
