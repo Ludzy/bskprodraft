@@ -3,7 +3,7 @@
     --primary-color: #3b40a4;
     --secondary-color: #b72f2f;
     --text-color: #ffffff;
-    --button-hover-color: #00BFFF;
+    --button-hover-color: rgb(0, 191, 255);
     --border-radius: 8px;
     --font-family: "Roboto", sans-serif;
 }
@@ -229,6 +229,13 @@ body {
     height: 300%;
     object-fit: cover;
     border-radius: var(--border-radius);
+    transition: all 0.3s ease; /* Suaviza mudanças gerais */
+}
+
+/* Regra específica para placeholder.png */
+.pick-slot img[src="/img/placeholder.png"] {
+    height: 150%; /* Mantendo o ajuste anterior */
+    margin-top: 0px;
 }
 
 .ban-slot img,
@@ -237,6 +244,29 @@ body {
     height: 110%;
     object-fit: cover;
     border-radius: var(--border-radius);
+    transition: all 0.3s ease; /* Suaviza mudanças gerais */
+}
+
+/* Definindo a animação de seleção */
+@keyframes selectPulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05); /* Aumenta ligeiramente */
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Aplica a animação quando o src não é placeholder.png */
+.pick-slot img:not([src="/img/placeholder.png"]),
+.ban-slot img:not([src="/img/placeholder.png"]) {
+    animation: selectPulse 0.5s ease-in-out; /* Animação de 0.5s */
 }
 
 #blue-fearless-bans {
