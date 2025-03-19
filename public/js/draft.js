@@ -1,5 +1,5 @@
 const socket = io();
-const patch = '15.4.1'
+const patch = '15.5.1'
 const baseUrl = `https://ddragon.leagueoflegends.com/cdn/${patch}`
 let champions = null;
 let currPick = 0;
@@ -627,38 +627,43 @@ socket.on('pickUpdate', (picks) => { //new pick was locked
 	newPick(picks);
 });
 
-socket.on('showNextGameButton', (data) => { //draft ended
-	if (data.finished) {
+socket.on('showNextGameButton', (data) => {
+    if (data.finished) {
         viewingPreviousDraft = true;
-		confirmButton.textContent = 'Ver jogos passados';
-		confirmButton.style.display = 'block';
-		confirmButton.disabled = false;
-		confirmButton.onclick = function() {
-			location.reload();
-		};
+        confirmButton.textContent = 'Ver jogos passados';
+        confirmButton.style.display = 'block';
+        confirmButton.disabled = false;
+        confirmButton.onclick = function() {
+            location.reload();
+        };
         switchSidesButton.style.display = 'none';
         finishSeriesButton.style.display = 'none';
-		return;
-	}
-	currPick = 0;
-	confirmButton.textContent = 'Pronto para o proximo jogo';
-	confirmButton.disabled = false;
-	if (side !== 'S') {
-		switchSidesButton.style.display = 'block';
-		switchSidesButton.onclick = function() {
-			socket.emit('switchSides', draftId);
-		};
+        return;
+    }
+    currPick = 0;
+    confirmButton.textContent = 'Pronto para o próximo jogo';
+    confirmButton.disabled = false;
+    confirmButton.onclick = function() { // Adiciona ação ao clicar
+        socket.emit('playerReadyForNextGame', { draftId, side: side === 'B' ? 'blue' : 'red' });
+        confirmButton.textContent = side === 'B' ? 'Esperando o Lado Vermelho...' : 'Esperando o Lado Azul...';
+        confirmButton.disabled = true;
+    };
+    if (side !== 'S') {
+        switchSidesButton.style.display = 'block';
+        switchSidesButton.onclick = function() {
+            socket.emit('switchSides', draftId);
+        };
         finishSeriesButton.style.display = 'block';
         finishSeriesButton.onclick = function() {
             viewingPreviousDraft = true;
-            socket.emit('endSeries', draftId)
+            socket.emit('endSeries', draftId);
             finishSeriesButton.style.display = 'none';
             switchSidesButton.style.display = 'none';
         };
-	}
-	blueReady = data.blueReady;
-	redReady = data.redReady;
-	draftStarted = data.started;
+    }
+    blueReady = data.blueReady;
+    redReady = data.redReady;
+    draftStarted = data.started;
 });
 
 socket.on('switchSidesResponse', (data) => { //sides swapped
